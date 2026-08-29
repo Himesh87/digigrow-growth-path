@@ -14,7 +14,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
 import { coursePercent, quizMax, quizTotal, useProfile, useProgress, useUpdateProfile } from "@/hooks/useProgress";
 import { BUSINESS_TYPES, CHALLENGE_DAYS, type BusinessType } from "@/lib/digigrow-data";
 
@@ -36,7 +38,8 @@ const schema = z.object({
 });
 
 function ProfilePage() {
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { data: profile } = useProfile();
   const { data: progress } = useProgress();
@@ -72,7 +75,9 @@ function ProfilePage() {
   }
 
   async function handleSignOut() {
-    await signOut();
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await supabase.auth.signOut();
     navigate({ to: "/", replace: true });
   }
 
