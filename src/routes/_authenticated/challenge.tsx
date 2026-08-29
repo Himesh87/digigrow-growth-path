@@ -89,11 +89,11 @@ function ChallengePage() {
                   >
                     {d.day}
                   </span>
-                  {d.title}
+                  {d.task}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <p className="text-sm text-muted-foreground">{d.task}</p>
+                <p className="text-sm text-muted-foreground">{d.detail}</p>
                 <Button
                   variant={done ? "outline" : "default"}
                   className={`rounded-full ${done ? "" : "bg-gradient-primary"}`}
